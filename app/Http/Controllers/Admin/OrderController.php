@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\OrderStatusUpdate;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -50,7 +52,13 @@ class OrderController extends Controller
             'status' => 'required|in:pending,processing,shipped,delivered,cancelled',
         ]);
 
+        $oldStatus = $order->status;
         $order->update($validated);
+
+        // Send status update email if status changed
+        if ($oldStatus !== $order->status) {
+            Mail::to($order->user->email)->send(new OrderStatusUpdate($order, $oldStatus));
+        }
 
         return redirect()->back()
             ->with('success', 'Order status updated successfully.');

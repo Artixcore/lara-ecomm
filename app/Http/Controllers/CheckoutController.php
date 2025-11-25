@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\OrderConfirmation;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class CheckoutController extends Controller
 {
@@ -63,6 +65,10 @@ class CheckoutController extends Controller
 
             Auth::user()->cartItems()->delete();
         });
+
+        // Send order confirmation email
+        $order = Order::latest()->first();
+        Mail::to($order->user->email)->send(new OrderConfirmation($order));
 
         return redirect()->route('orders.index')->with('success', 'Order placed successfully!');
     }
