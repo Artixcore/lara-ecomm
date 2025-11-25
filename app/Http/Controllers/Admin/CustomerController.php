@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -12,54 +13,20 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+        $customers = User::where('role', 'customer')->withCount('orders')->latest()->paginate(15);
+        return view('admin.customers.index', compact('customers'));
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(User $customer)
     {
-        //
-    }
+        if ($customer->role !== 'customer') {
+            abort(404);
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $customer->load('orders.orderItems.product');
+        return view('admin.customers.show', compact('customer'));
     }
 }

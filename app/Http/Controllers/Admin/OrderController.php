@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -12,54 +13,46 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+        $orders = Order::with('user')->latest()->paginate(15);
+        return view('admin.orders.index', compact('orders'));
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Order $order)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+        $order->load(['user', 'orderItems.product']);
+        return view('admin.orders.show', compact('order'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Order $order)
     {
-        //
+        $validated = $request->validate([
+            'status' => 'required|in:pending,processing,shipped,delivered,cancelled',
+        ]);
+
+        $order->update($validated);
+
+        return redirect()->route('admin.orders.show', $order)
+            ->with('success', 'Order status updated successfully.');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Update order status.
      */
-    public function destroy(string $id)
+    public function updateStatus(Request $request, Order $order)
     {
-        //
+        $validated = $request->validate([
+            'status' => 'required|in:pending,processing,shipped,delivered,cancelled',
+        ]);
+
+        $order->update($validated);
+
+        return redirect()->back()
+            ->with('success', 'Order status updated successfully.');
     }
 }

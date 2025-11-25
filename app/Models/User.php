@@ -66,4 +66,19 @@ class User extends Authenticatable
     {
         return $this->role === 'customer';
     }
+
+    public function addresses()
+    {
+        return $this->hasMany(Address::class);
+    }
+
+    public function wishlists()
+    {
+        return $this->hasMany(Wishlist::class);
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
 }
