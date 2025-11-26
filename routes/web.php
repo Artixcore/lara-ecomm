@@ -6,7 +6,13 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\CurrencyController;
 use Illuminate\Support\Facades\Route;
+
+// Language and Currency switching
+Route::get('/language/{locale}', [LanguageController::class, 'switch'])->name('language.switch');
+Route::get('/currency/{currency}', [CurrencyController::class, 'switch'])->name('currency.switch');
 
 Route::get('/', [ProductController::class, 'index'])->name('home');
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');

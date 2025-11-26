@@ -36,7 +36,9 @@
             </div>
 
             <!-- Settings Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
+            <div class="hidden sm:flex sm:items-center sm:ms-6 space-x-4">
+                <x-language-switcher />
+                <x-currency-switcher />
                 @auth
                 <a href="{{ route('cart.index') }}" class="me-4 relative">
                     <svg class="w-6 h-6 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -115,6 +117,11 @@
         </div>
 
         <!-- Responsive Settings Options -->
+        <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
+            <div class="px-4 flex space-x-4 mb-4">
+                <x-language-switcher />
+                <x-currency-switcher />
+            </div>
         @auth
         <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
             <div class="px-4">

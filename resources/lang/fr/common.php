@@ -1,0 +1,31 @@
+<?php
+
+return [
+    'welcome' => 'Bienvenue',
+    'home' => 'Accueil',
+    'products' => 'Produits',
+    'cart' => 'Panier',
+    'orders' => 'Commandes',
+    'profile' => 'Profil',
+    'logout' => 'Déconnexion',
+    'login' => 'Connexion',
+    'register' => 'S\'inscrire',
+    'add_to_cart' => 'Ajouter au Panier',
+    'price' => 'Prix',
+    'stock' => 'Stock',
+    'description' => 'Description',
+    'quantity' => 'Quantité',
+    'total' => 'Total',
+    'checkout' => 'Commander',
+    'shipping_address' => 'Adresse de Livraison',
+    'order_confirmation' => 'Confirmation de Commande',
+    'order_placed' => 'Commande Passée avec Succès',
+    'view_order' => 'Voir la Commande',
+    'order_status' => 'Statut de la Commande',
+    'pending' => 'En Attente',
+    'processing' => 'En Traitement',
+    'shipped' => 'Expédié',
+    'delivered' => 'Livré',
+    'cancelled' => 'Annulé',
+];
+
